@@ -1,4 +1,6 @@
+using CNAB.Domain.Interfaces.Repositories;
 using CNAB.Infra.Data.Context;
+using CNAB.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,9 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
+        services.AddScoped<IStoreRepository, StoreRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
         
         return services;
     }
