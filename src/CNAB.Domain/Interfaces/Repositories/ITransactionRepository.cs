@@ -1,4 +1,4 @@
-using System.Transactions;
+using CNAB.Domain.Entities;
 
 namespace CNAB.Domain.Interfaces.Repositories;
 
