@@ -1,3 +1,5 @@
+using CNAB.Application.Interfaces;
+using CNAB.Application.Services;
 using CNAB.Domain.Interfaces.Repositories;
 using CNAB.Infra.Data.Context;
 using CNAB.Infra.Data.Repositories;
@@ -23,6 +25,10 @@ public static class DependencyInjection
         var config = new TypeAdapterConfig();
         services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
+
+        services.AddScoped<ITransactionService, TransactionService>();
+        services.AddScoped<IStoreService, StoreService>();
+        services.AddScoped<ICNABProcessingService, CNABProcessingService>();
         
         return services;
     }
