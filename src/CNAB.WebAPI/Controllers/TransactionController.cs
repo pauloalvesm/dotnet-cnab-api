@@ -1,9 +1,11 @@
 using CNAB.Application.DTOs;
 using CNAB.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CNAB.WebAPI.Controllers;
 
+[Authorize(AuthenticationSchemes = "Bearer")]
 [Route("api/[controller]")]
 [ApiController]
 public class TransactionController : ControllerBase
@@ -60,6 +62,7 @@ public class TransactionController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "DeletePermission")]
     public async Task<IActionResult> DeleteTransaction(Guid id)
     {
         var transaction = await _transactionService.GetTransactionByIdAsync(id);
