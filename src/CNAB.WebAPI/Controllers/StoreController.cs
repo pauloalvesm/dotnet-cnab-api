@@ -1,9 +1,11 @@
 using CNAB.Application.DTOs;
 using CNAB.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CNAB.WebAPI.Controllers;
 
+[Authorize(AuthenticationSchemes = "Bearer")]
 [Route("api/[controller]")]
 [ApiController]
 public class StoreController : ControllerBase
@@ -62,6 +64,7 @@ public class StoreController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "DeletePermission")]
     public async Task<IActionResult> DeleteStore(Guid id)
     {
         var store = await _storeService.GetByIdStoreAsync(id);
