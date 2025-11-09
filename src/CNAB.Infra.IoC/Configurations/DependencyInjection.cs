@@ -1,7 +1,9 @@
 using CNAB.Application.Interfaces;
 using CNAB.Application.Interfaces.Account;
+using CNAB.Application.Interfaces.Area;
 using CNAB.Application.Services;
 using CNAB.Application.Services.Account;
+using CNAB.Application.Services.Area;
 using CNAB.Domain.Interfaces.Repositories;
 using CNAB.Infra.Data.Context;
 using CNAB.Infra.Data.Repositories;
@@ -33,6 +35,7 @@ public static class DependencyInjection
         services.AddScoped<IStoreService, StoreService>();
         services.AddScoped<ICNABProcessingService, CNABProcessingService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAdminService, AdminService>();
         
         return services;
     }

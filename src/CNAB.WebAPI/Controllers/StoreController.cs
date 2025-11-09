@@ -22,6 +22,11 @@ public class StoreController : ControllerBase
     {
         var stores = await _storeService.GetAllStoreAsync();
 
+        if (stores == null || !stores.Any())
+        {
+            return NotFound("No stores found.");
+        }
+
         return Ok(stores);
     }
 
@@ -32,7 +37,7 @@ public class StoreController : ControllerBase
 
         if (store == null)
         {
-            return NotFound();
+            return NotFound("No Store found.");
         }
 
         return Ok(store);
@@ -64,14 +69,14 @@ public class StoreController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    [Authorize(Policy = "DeletePermission")]
+    [Authorize(Policy = "AdminAccess")]
     public async Task<IActionResult> DeleteStore(Guid id)
     {
         var store = await _storeService.GetByIdStoreAsync(id);
 
         if (store == null)
         {
-            return NotFound();
+            return NotFound("No Store found.");
         }
 
         await _storeService.DeleteStoreAsync(id);

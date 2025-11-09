@@ -21,6 +21,12 @@ public class TransactionController : ControllerBase
     public async Task<ActionResult<IEnumerable<TransactionDto>>> GetAllTransactions()
     {
         var transactions = await _transactionService.GetAllTransactionsAsync();
+
+        if (transactions == null || !transactions.Any())
+        {
+            return NotFound("No transactions found.");
+        }
+
         return Ok(transactions);
     }
 
@@ -31,7 +37,7 @@ public class TransactionController : ControllerBase
 
         if (transaction == null)
         {
-            return NotFound();
+            return NotFound("No transaction found.");
         }
 
         return Ok(transaction);
@@ -62,14 +68,14 @@ public class TransactionController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Policy = "DeletePermission")]
+    [Authorize(Policy = "AdminAccess")]
     public async Task<IActionResult> DeleteTransaction(Guid id)
     {
         var transaction = await _transactionService.GetTransactionByIdAsync(id);
 
         if (transaction == null)
         {
-            return NotFound();
+            return NotFound("No transaction found.");
         }
 
         await _transactionService.DeleteTransactionAsync(id);
