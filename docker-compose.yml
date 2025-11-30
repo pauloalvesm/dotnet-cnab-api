@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: cnab_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${HOST_PORT}:${DB_PORT}" 
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  cnab.webapi:
+    image: ${DOCKER_REGISTRY-}cnabwebapi
+    build:
+      context: .
+      dockerfile: src/CNAB.WebAPI/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=${DB_HOST};Port=${DB_PORT};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
