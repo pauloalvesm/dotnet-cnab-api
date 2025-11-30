@@ -41,6 +41,9 @@ This project was built using the following stack:
   - `ASP.NET Core WebAPI`
   - `C#`
   - `Entity Framework Core`
+  - `ASP.NET Core Identity`
+  - `JWT`
+  - `Mapster`
   - `Clean Architecture`
   - `Rich Domain Model`
 
